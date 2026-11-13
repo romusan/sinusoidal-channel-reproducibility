@@ -14,7 +14,7 @@ CFD reruns.
 
 ## Verification data
 
-The data directory holds the thirteen manuscript data supplements. To regenerate the
+The data directory holds the fifteen manuscript data supplements. To regenerate the
 four-grid comparison and sensitivity table, run:
 
     python -m pip install -r requirements.txt
@@ -32,3 +32,24 @@ tables. Full numerical fields and native CAD remain in the project archive.
 S11 reports sensitivity with and without the coarse mesh. S12 reports wall-to-bulk
 temperature differences by wave period. S13 contains segment diagnostics from
 the wall-refined fields. The wall flux in S13 is a physical-gradient diagnostic.
+
+## Thermal verification
+
+S14 compares the common fine and wall-refined flat grids against the modal
+Graetz result with both stencils at Reynolds numbers 100 and 800. S15 records
+native SU2 CHT runs on the coarse common grid. Both native runs reached the
+iteration limit. The enthalpy imbalance and temperature undershoot exclude
+these estimates from the coefficient comparison.
+
+To regenerate the wall-flux figure from the checkout:
+
+    python 06_manuscrito/make_figure_wall_flux.py --data data/S13_L60_axial_diagnostics.csv --out wall_flux.pdf
+
+Extract `IJTS_verification_data.zip` into a separate directory. From its root,
+run the following with the packages listed in `requirements.txt` in the checkout:
+
+    python 07_estudio_3d/verificar_graetz_pared.py --reynolds 800 100 --grids pared fina
+    python 07_estudio_3d/verificar_cht_su2.py --su2 /path/to/SU2_CFD --outer 600
+
+The archive includes the mesh arrays and modal reference needed by the first
+command, and the two coarse meshes and starting fields needed by the second.

@@ -121,6 +121,10 @@ def correct(meta, grid, velocity, *, graetz=False, tolerance=1e-6, first_ring=Fa
     strength = 0.
     factor = None
     planes = axial_blocks(grid, free, graetz, identification) if len(free) >= 70000 else None
+    if graetz and planes is not None:
+        # The advective outlet term provides a better starting block when the
+        # Graetz operator omits axial conduction.
+        planes.reverse()
     for step in range(21):
         if active.any():
             selected = active[edges.row] | active[edges.col]
