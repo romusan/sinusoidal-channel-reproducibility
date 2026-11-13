@@ -14,7 +14,7 @@ CFD reruns.
 
 ## Verification data
 
-The data directory holds the fifteen manuscript data supplements. To regenerate the
+The data directory holds the seventeen manuscript data supplements. To regenerate the
 four-grid comparison and sensitivity table, run:
 
     python -m pip install -r requirements.txt
@@ -53,3 +53,16 @@ run the following with the packages listed in `requirements.txt` in the checkout
 
 The archive includes the mesh arrays and modal reference needed by the first
 command, and the two coarse meshes and starting fields needed by the second.
+
+## Native SU2 continuation and equal pumping power
+
+S16 reports the converged coupling residuals, advective port heat,
+temperature bounds and the control with heating applied directly to the fluid.
+The conjugate runs retain a heat discrepancy and are diagnostics. S17 reports
+the operating points interpolated at equal ideal pumping power.
+
+From the extracted verification ZIP, run `python 07_estudio_3d/repetir_cht_su2.py`
+with `--su2 /path/to/SU2_CFD --re 800 --case H15_Plana --out /path/to/run`. The
+other geometry is `H15_A150_L60`; both can also be run with `--re 100`.
+`verificar_flujo_directo_su2.py` takes the flat 800 repeat as `--donor` and
+repeats the flat fluid-only control.
