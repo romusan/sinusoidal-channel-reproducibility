@@ -1,7 +1,6 @@
 # Conjugate heat transfer in a sinusoidal air channel
 
-This repository supports the study *Verification of conjugate heat transfer in a
-sinusoidal air channel*. It contains the Python solvers and analysis scripts for
+This repository supports the study *Conjugate heat transfer and pressure drop in a finite-width sinusoidal air channel*. It contains the Python solvers and analysis scripts for
 a flat reference and a 60 mm sinusoidal wall at reference Reynolds numbers 100
 and 800. The model uses a finite air duct, fixed projected heat input and either
 solid sidewalls or transverse periodicity.
@@ -15,7 +14,7 @@ CFD reruns.
 
 ## Verification data
 
-The data directory holds the ten manuscript supplements. To regenerate the
+The data directory holds the thirteen manuscript data supplements. To regenerate the
 four-grid comparison and sensitivity table, run:
 
     python -m pip install -r requirements.txt
@@ -29,3 +28,7 @@ spanwise and solid meshes.
 The verification ZIP also contains momentum residual histories, solver
 configurations, geometry metadata and the underlying steady and transient
 tables. Full numerical fields and native CAD remain in the project archive.
+
+S11 reports sensitivity with and without the coarse mesh. S12 reports wall-to-bulk
+temperature differences by wave period. S13 contains segment diagnostics from
+the wall-refined fields. The wall flux in S13 is a physical-gradient diagnostic.

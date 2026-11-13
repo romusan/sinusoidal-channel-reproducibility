@@ -60,6 +60,21 @@ def main():
     raw.to_csv(HERE/'resultados_l60_pared.csv',index=False,encoding='utf-8-sig')
     pair.to_csv(HERE/'comparacion_l60_pared.csv',index=False,encoding='utf-8-sig')
     contrasts.to_csv(HERE/'contraste_reynolds_l60_pared.csv',encoding='utf-8-sig')
+    subset_rows = []
+    for boundary in ('solid','periodic'):
+        label = 'solido' if boundary == 'solid' else 'periodico'
+        key = f'cambio_h_{label}_pct_800_menos_100_pp'
+        for scope, grids in [('all_four', ORDER), ('medium_fine_wall_refined', ORDER[1:])]:
+            base, expanded = (contrasts.xs(flag,level='first_ring').loc[grids,key]
+                              for flag in (False, True))
+            spread = 1.25*(base.max()-base.min())
+            shift = (expanded-base).abs()
+            subset_rows.append(dict(lateral=boundary, grids=scope, scaled_baseline_range_pp=spread,
+                                    largest_stencil_shift_pp=shift.max(), grid_of_largest_stencil_shift=shift.idxmax(),
+                                    sampled_sensitivity_pp=spread+shift.max(),
+                                    wall_refined_baseline_pp=base.loc['pared'],
+                                    wall_refined_expanded_pp=expanded.loc['pared']))
+    pd.DataFrame(subset_rows).to_csv(HERE/'sensibilidad_contraste_subconjuntos_l60.csv',index=False)
     print(pair[['Re_ref','first_ring','malla',*METRICS]].round(5).to_string(index=False))
     print(contrasts.round(5).to_string())
     metrics = []
