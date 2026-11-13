@@ -14,7 +14,7 @@ CFD reruns.
 
 ## Verification data
 
-The data directory holds the seventeen manuscript data supplements. To regenerate the
+The data directory holds the eighteen manuscript data supplements. To regenerate the
 four-grid comparison and sensitivity table, run:
 
     python -m pip install -r requirements.txt
@@ -66,3 +66,7 @@ with `--su2 /path/to/SU2_CFD --re 800 --case H15_Plana --out /path/to/run`. The
 other geometry is `H15_A150_L60`; both can also be run with `--re 100`.
 `verificar_flujo_directo_su2.py` takes the flat 800 repeat as `--donor` and
 repeats the flat fluid-only control.
+
+## Crest and trough diagnostics
+
+S18 gives the span-averaged streamwise velocity at 1.5 mm above the local wall at the crest and trough positions of the first and fifth periods, with matched flat stations. It also reports period averages of wall and mixing-cup bulk temperatures. The script `07_estudio_3d/comparar_fases_l60.py` regenerates S18 from the archived wall-refined mesh, momentum restarts and sectional data. S12 and S13 provide the paired temperature difference and physical conductive flux.
