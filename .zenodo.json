@@ -1,0 +1,25 @@
+{
+  "title": "Verification data and software for conjugate heat transfer in a sinusoidal air channel",
+  "description": "Case-level numerical results, residual histories, and Python analysis code for a flat and a sinusoidal air channel. The 60 mm wave is compared at reference Reynolds numbers 100 and 800 on four common meshes with solid and transverse-periodic sides and two thermal correction stencils.",
+  "creators": [
+    {
+      "name": "Sandoval Florez, Romulo",
+      "affiliation": "Universidad ECCI"
+    },
+    {
+      "name": "Parra Medina, Claudia Patricia",
+      "affiliation": "Universidad Militar Nueva Granada"
+    },
+    {
+      "name": "Luis",
+      "affiliation": "Universidad Militar Nueva Granada"
+    }
+  ],
+  "keywords": [
+    "conjugate heat transfer",
+    "solution verification",
+    "sinusoidal channel",
+    "CFD",
+    "mesh sensitivity"
+  ]
+}
