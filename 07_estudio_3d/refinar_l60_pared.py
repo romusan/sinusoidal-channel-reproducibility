@@ -123,8 +123,8 @@ def prepare(grid, name, re, mesh, solver):
     print(re, grid, name, 'momentum verified', flush=True)
 
 
-def solve_thermal(grid, name, re, mesh):
-    for boundary in BOUNDARIES:
+def solve_thermal(grid, name, re, mesh, boundaries=BOUNDARIES):
+    for boundary in boundaries:
         case = archive(grid, name, re, boundary)
         for expanded in (False, True):
             out = ROOT / f'Re{re}' / grid / name / boundary / ('expanded' if expanded else 'baseline')
@@ -156,8 +156,11 @@ def main():
     cli.add_argument('--re', type=int, nargs='+', choices=REYNOLDS, default=REYNOLDS)
     cli.add_argument('--grids', nargs='+', choices=GRIDS, default=GRIDS)
     cli.add_argument('--workers', type=int, choices=(1,2,3), default=2)
+    cli.add_argument('--boundary', nargs='+', choices=BOUNDARIES, default=BOUNDARIES)
     cli.add_argument('--su2', type=Path, default=Path(os.environ['TEMP'])/'colector_su2_860/bin/SU2_CFD.exe')
     args = cli.parse_args()
+    if args.phase != 'thermal' and tuple(args.boundary) != BOUNDARIES:
+        cli.error('--boundary is available only with --phase thermal')
     meshes = {(g,n):mesh_path(g,n) for g in args.grids for n in CASES}
     jobs = [(g,n,r,meshes[g,n]) for g in args.grids for r in reversed(args.re) for n in CASES]
     if args.phase in ('all','momentum'):
@@ -165,7 +168,7 @@ def main():
             list(pool.map(lambda j: prepare(*j,args.su2.resolve()), jobs))
     if args.phase in ('all','thermal'):
         with ThreadPoolExecutor(max_workers=args.workers) as pool:
-            list(pool.map(lambda j: solve_thermal(*j), jobs))
+            list(pool.map(lambda j: solve_thermal(*j, args.boundary), jobs))
 
 
 if __name__ == '__main__':
